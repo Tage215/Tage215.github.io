@@ -21,13 +21,41 @@ function init() {
 function buttonClick(e) {
     let btn = e.target.id; //id för den tangent som tryckte ner
 
-
     // kollar om siffertangent är nedtryckt
     if (btn.substring(0, 1) === 'b') {
         let digit = btn.substring(1, 2); // plockar ut siffran från id:et
+        addDigit(digit);
+    } 
+    else { // Inte en siffertangent, övriga tangenter.
+        switch(btn) {
+            case 'comma':
+                addComma();
+                break;
 
-    } else { // Inte en siffertangent, övriga tangenter.
+            case 'enter':
+                calculate();
+                break;
 
+            case 'clear':
+                memClear();
+                break;
+
+            case 'add':
+                setOperator('+');
+                break;
+
+            case 'sub':
+                setOperator('-');
+                break;
+            
+            case 'mul':
+                setOperator('x');
+                break;
+
+            case 'div':
+                setOperator('/');
+                break;
+        }
     }
 }
 
@@ -35,13 +63,15 @@ function buttonClick(e) {
  *  Lägger till siffra på display.
  */
 function addDigit(digit) {
+    lcd.value += digit;
 }
 
 /**
  * Lägger till decimaltecken
  */
 function addComma() {
-
+    isComma = true;
+    lcd.value += '.'
 }
 
 /**
@@ -49,11 +79,11 @@ function addComma() {
  * +, -, *, /
  */
 function setOperator(operator){
-
+    lcd.value += operator;
 }
 
 /**
- * Beräknar ovh visar resultatet på displayen.
+ * Beräknar och visar resultatet på displayen.
  */
 function calculate() {
 

@@ -23,7 +23,7 @@ main {
 
 main input{
     width: 100%;
-    font-size: 3.5rem;
+    font-size: 8rem;
     margin-bottom:10px;
     background-color: black;
     color: green;
@@ -35,13 +35,18 @@ main input{
 }
 
 button {
-    font-size: 20rem;
+    font-size: 14rem;
     border-radius: 1rem;
+}
+
+button:hover {
+    background-color: lightgray;
 }
 
 main section#keyBoard {
     /** Grid eller liknade */
     display: grid;
+    
     
 }
 
