@@ -8,6 +8,7 @@ let lcd = null; // displayen
 
 let memory = 0; // Lagrat/gamlat värdet från display
 let arithmetic = null; // Vilken beräkning som skall göras +,-, x eller /
+let isComma = false;
 
 function init() {
     lcd = document.getElementById('lcd');
@@ -49,12 +50,12 @@ function buttonClick(e) {
                 break;
             
             case 'mul':
-                setOperator('x');
+                setOperator('*');
                 break;
 
             case 'div':
                 setOperator('/');
-                break;
+                
         }
     }
 }
@@ -64,6 +65,7 @@ function buttonClick(e) {
  */
 function addDigit(digit) {
     lcd.value += digit;
+    memory += digit;
 }
 
 /**
@@ -72,6 +74,7 @@ function addDigit(digit) {
 function addComma() {
     isComma = true;
     lcd.value += '.'
+    memory += ',';
 }
 
 /**
@@ -80,12 +83,59 @@ function addComma() {
  */
 function setOperator(operator){
     lcd.value += operator;
+    memory += operator;
 }
 
 /**
  * Beräknar och visar resultatet på displayen.
  */
 function calculate() {
+    let result = null;
+    let number = 0;
+    let temp = null;
+    for (let i = 0; i < memory.length; i++)
+    {
+        for (let j = 0; j < memory.length; j++)
+        {
+            temp = memory.charAt(j);
+            if(temp <= 9 || temp >= 0) {
+                number += temp;
+            }
+        }
+        
+        if (temp == ',') {
+            isComma = true;
+        }
+        else {
+            arithmetic = temp;
+        }
+
+        if (result == null) {
+            result = number;
+        }
+        else {
+            switch(arithmetic) {
+                case '+':
+                    result += number;
+                    break;
+
+                case '-':
+                    result -= number;
+                    break;
+                
+                case '*':
+                    result *= number;
+                    break;
+
+                case '/':
+                    result /= number;
+            }
+        }
+        number = 0;
+    }
+    lcd.value = result;
+    memory = result;
+    result = null;
 
 }
 
@@ -99,6 +149,7 @@ function clearLCD() {
 function memClear(){
     memory = 0;
     arithmetic = null;
+    result = null;
     clearLCD();
 }
 
