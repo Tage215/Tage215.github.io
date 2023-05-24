@@ -7,7 +7,8 @@
 let lcd = null; // displayen
 
 let memory = 0; // Lagrat/gamlat värdet från display
-let arithmetic = null; // Vilken beräkning som skall göras +,-, x eller /
+let arithmetic = []; // Vilken beräkning som skall göras +,-, x eller /
+let numbers = [];
 let isComma = false;
 
 function init() {
@@ -23,12 +24,13 @@ function buttonClick(e) {
     let btn = e.target.id; //id för den tangent som tryckte ner
 
     // kollar om siffertangent är nedtryckt
-    if (btn.substring(0, 1) === 'b') {
-        let digit = btn.substring(1, 2); // plockar ut siffran från id:et
+    if (btn.charAt(0) === 'b') {
+        let digit = btn.charAt(1); // plockar ut siffran från id:et
         addDigit(digit);
-    } 
+    }
+
     else { // Inte en siffertangent, övriga tangenter.
-        switch(btn) {
+        switch (btn) {
             case 'comma':
                 addComma();
                 break;
@@ -48,14 +50,14 @@ function buttonClick(e) {
             case 'sub':
                 setOperator('-');
                 break;
-            
+
             case 'mul':
                 setOperator('*');
                 break;
 
             case 'div':
                 setOperator('/');
-                
+
         }
     }
 }
@@ -65,7 +67,12 @@ function buttonClick(e) {
  */
 function addDigit(digit) {
     lcd.value += digit;
-    memory += digit;
+    if (memory == 0) {
+        memory = digit;
+    }
+    else {
+        memory += digit;
+    }
 }
 
 /**
@@ -81,76 +88,79 @@ function addComma() {
  * Sparar operator.
  * +, -, *, /
  */
-function setOperator(operator){
-    lcd.value += operator;
-    memory += operator;
+function setOperator(operator) {
+    if (memory != 0) {
+        lcd.value += operator;
+        memory += operator;
+    }
 }
 
 /**
  * Beräknar och visar resultatet på displayen.
  */
 function calculate() {
-    let result = null;
+    read();
+
+    console.log(arithmetic);
+    console.log(numbers);
+
+    let result = Number(numbers[0]);
     let number = 0;
-    let temp = null;
-    for (let i = 0; i < memory.length; i++)
-    {
-        for (let j = 0; j < memory.length; j++)
-        {
-            temp = memory.charAt(j);
-            if(temp <= 9 || temp >= 0) {
-                number += temp;
-            }
-        }
-        
-        if (temp == ',') {
-            isComma = true;
-        }
-        else {
-            arithmetic = temp;
-        }
+    for (let i = 0; i < arithmetic.length; i++) {
+        number = Number(numbers[i + 1])
+        switch (arithmetic[i]) {
+            case '+':
+                result += number;
+                break;
 
-        if (result == null) {
-            result = number;
-        }
-        else {
-            switch(arithmetic) {
-                case '+':
-                    result += number;
-                    break;
+            case '-':
+                result -= number;
+                break;
 
-                case '-':
-                    result -= number;
-                    break;
-                
-                case '*':
-                    result *= number;
-                    break;
+            case '*':
+                result *= number;
+                break;
 
-                case '/':
-                    result /= number;
-            }
+            case '/':
+                result /= number;
         }
-        number = 0;
     }
+
+
+    numbers = [];
+    arithmetic = [];
     lcd.value = result;
     memory = result;
-    result = null;
-
 }
 
-/** Rensar display */
-function clearLCD() {
-    lcd.value = '';
-    isComma = false;
+function read() {
+    let temp = null;
+    let k = 0;
+    let j = 0;
+    for (let i = 0; i < memory.length; i++) {
+        temp = memory.charAt(i);
+        if ((temp <= 9 && temp >= 0) || temp == ',') {
+            if (numbers[k] == null) {
+                numbers[k] = temp;
+            }
+            else {
+                numbers[k] += temp;
+            }
+        }
+        else {
+            arithmetic[j] = temp;
+            j++;
+            k++;
+        }
+    }
 }
 
 /** Rensar allt, reset */
-function memClear(){
+function memClear() {
     memory = 0;
     arithmetic = null;
-    result = null;
-    clearLCD();
+    isComma = false;
+    lcd.value = '';
 }
 
 window.onload = init;
