@@ -1,15 +1,7 @@
-/**
- * Se detta som en grund att utgå ifrån.
- * Det är helt fritt att ändra och ta bort kod om ni
- * önskar lösa problemen med andra metoder.
- */
-
 let lcd = null; // displayen
-
-let memory = 0; // Lagrat/gamlat värdet från display
+let memory = 0; // Lagrat värde från display
 let arithmetic = []; // Vilken beräkning som skall göras +,-, x eller /
-let numbers = [];
-let isComma = false;
+let numbers = []; // talen som ska beräknas
 
 function init() {
     lcd = document.getElementById('lcd');
@@ -25,10 +17,8 @@ function buttonClick(e) {
 
     // kollar om siffertangent är nedtryckt
     if (btn.charAt(0) === 'b') {
-        let digit = btn.charAt(1); // plockar ut siffran från id:et
-        addDigit(digit);
+        addDigit(btn.charAt(1));
     }
-
     else { // Inte en siffertangent, övriga tangenter.
         switch (btn) {
             case 'comma':
@@ -79,9 +69,10 @@ function addDigit(digit) {
  * Lägger till decimaltecken
  */
 function addComma() {
-    isComma = true;
-    lcd.value += '.'
-    memory += ',';
+    if (memory != 0 && isNumber(memory.charAt(memory.length - 1))) {
+        lcd.value += '.'
+        memory += '.';
+    }
 }
 
 /**
@@ -89,7 +80,7 @@ function addComma() {
  * +, -, *, /
  */
 function setOperator(operator) {
-    if (memory != 0) {
+    if (memory != 0 && isNumber(memory.charAt(memory.length - 1))) {
         lcd.value += operator;
         memory += operator;
     }
@@ -100,10 +91,6 @@ function setOperator(operator) {
  */
 function calculate() {
     read();
-
-    console.log(arithmetic);
-    console.log(numbers);
-
     let result = Number(numbers[0]);
     let number = 0;
     for (let i = 0; i < arithmetic.length; i++) {
@@ -126,7 +113,6 @@ function calculate() {
         }
     }
 
-
     numbers = [];
     arithmetic = [];
     lcd.value = result;
@@ -139,7 +125,7 @@ function read() {
     let j = 0;
     for (let i = 0; i < memory.length; i++) {
         temp = memory.charAt(i);
-        if ((temp <= 9 && temp >= 0) || temp == ',') {
+        if (isNumber(temp) || temp == '.') {
             if (numbers[k] == null) {
                 numbers[k] = temp;
             }
@@ -161,6 +147,15 @@ function memClear() {
     arithmetic = null;
     isComma = false;
     lcd.value = '';
+}
+
+function isNumber(number) {
+    if (number <= 9 && number >= 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 window.onload = init;
