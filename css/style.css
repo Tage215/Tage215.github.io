@@ -13,14 +13,6 @@ html {
     font-size: 62.5%;
 }
 
-body {
-
-}
-
-main {
-
-}
-
 main input{
     width: 100%;
     font-size: 8rem;
@@ -40,33 +32,14 @@ button {
 }
 
 button:hover {
-    background-color: lightgray;
+    color: green;
+    font-weight: bolder;
+}
+
+#comma, #enter, #add, #sub, #mul, #div, #clear {
+    color: aqua;
 }
 
 main section#keyBoard {
-    /** Grid eller liknade */
     display: grid;
-    
-    
-}
-
-@media (max-width: 767px) {
-    body {
-
-    }
-
-    main {
-
-    }
-
-    main input{
-
-    }
-}
-
-@media (max-width: 339px) {
-    main {
-
-    }
-
 }
