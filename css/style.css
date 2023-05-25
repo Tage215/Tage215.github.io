@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+body {
+    height: 100%;
+}
+
+html {
+    height: 100%;
+}
+
 @font-face {
   font-family: lcd;
   src: url(../font/SUBWT___.ttf);
@@ -26,8 +34,9 @@ main input{
 }
 
 button {
-    font-size: 14rem;
+    font-size: 8rem;
     border-radius: 1rem;
+    padding: 3.5rem;
 }
 
 button:hover, #comma:hover, #enter:hover, #add:hover, #sub:hover, #mul:hover, #div:hover, #clear:hover {
@@ -41,4 +50,5 @@ button:hover, #comma:hover, #enter:hover, #add:hover, #sub:hover, #mul:hover, #d
 
 main section#keyBoard {
     display: grid;
+    height: 100%;
 }
