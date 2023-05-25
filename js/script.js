@@ -109,15 +109,19 @@ function calculate() {
         }
     }
 
+    
     numbers = [];
     arithmetic = [];
-    if(result != null){
+
+    // Visar resultatet på skärmen
+    if (result != null) {
         lcd.value = result;
         memory = result;
     }
-    
+
 }
 
+// Läser in talen som ska beräknas från memory
 function read() {
     let temp = null;
     let k = 0;
