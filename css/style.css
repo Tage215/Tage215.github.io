@@ -25,11 +25,11 @@ main input{
     width: 100%;
     font-size: 8rem;
     background-color: black;
-    color: green;
+    color: limegreen;
     text-align: right;
     padding: 10px 4px 10px 4px;
     font-family: lcd;
-    border: 1px solid yellow;
+    border: 1px solid limegreen;
     border-radius:4px;
 }
 
