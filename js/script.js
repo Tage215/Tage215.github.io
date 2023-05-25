@@ -87,10 +87,10 @@ function setOperator(operator) {
  */
 function calculate() {
     read();
-    let result = Number(numbers[0]);
+    let result = parseFloat(numbers[0]);
     let number = 0;
     for (let i = 0; i < arithmetic.length; i++) {
-        number = Number(numbers[i + 1])
+        number = parseFloat(numbers[i + 1])
         switch (arithmetic[i]) {
             case '+':
                 result += number;
@@ -124,7 +124,7 @@ function read() {
     let j = 0;
     for (let i = 0; i < memory.length; i++) {
         temp = memory.charAt(i);
-        if (isNumber(temp) || temp == '.') {
+        if (temp != '+' && temp != '-' && temp != '*' && temp != '/') {
             if (numbers[k] == null) {
                 numbers[k] = temp;
             }
@@ -143,18 +143,9 @@ function read() {
 /** Rensar allt, reset */
 function memClear() {
     memory = 0;
-    arithmetic = null;
-    isComma = false;
+    arithmetic = [];
+    numbers = [];
     lcd.value = '';
-}
-
-function isNumber(number) {
-    if (number <= 9 && number >= 0) {
-        return true;
-    }
-    else {
-        return false;
-    }
 }
 
 window.onload = init;

@@ -16,7 +16,6 @@ html {
 main input{
     width: 100%;
     font-size: 8rem;
-    margin-bottom:10px;
     background-color: black;
     color: green;
     text-align: right;
@@ -31,7 +30,7 @@ button {
     border-radius: 1rem;
 }
 
-button:hover {
+button:hover, #comma:hover, #enter:hover, #add:hover, #sub:hover, #mul:hover, #div:hover, #clear:hover {
     color: green;
     font-weight: bolder;
 }
